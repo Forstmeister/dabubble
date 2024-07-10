@@ -1,0 +1,36 @@
+<div class="main-container">
+    <div class="channel-close-icon" mat-dialog-close [mat-dialog-close]="true">
+    </div>
+    <div class="headline">
+        <span>Channel erstellen</span>
+    </div>
+    <div class="info-text">
+        <span>Channels dienen deinem Team zur Kommunikation. Am besten sollten sie themenbezogen sein <br>
+            #marketing zum Beispiel.</span>
+    </div>
+    <form #createNewChannel="ngForm" name="createNewChannel"
+        (ngSubmit)="createNewChannel.form.valid && onSubmit(createNewChannel)">
+        <div class="channel-name">
+            <span> Channel-Name</span>
+            <input minlength="4" maxlength="16" required type="text" name="channelName" placeholder="# z.B. Kooperationsprojekte"
+                [(ngModel)]="inputs.channelName"
+                [ngClass]="{ 'focus-visible-invalid': createNewChannel.invalid && createNewChannel.dirty }">
+        </div>
+        <div class="error-message" *ngIf="!createNewChannel.valid && createNewChannel.dirty ">
+            Inhalt erforderlich !
+        </div>
+        <div class="error-message" *ngIf="channelNameExists === true">
+            <p>Dieser Channelname ist zu kurz oder existiert schon, bitte wähle einen anderen !</p>
+        </div>
+        <div class="channel-description">
+            <span> Beschreibung <span class="optional-notice">(optional)</span></span>
+            <input type="text" name="channelDescription" placeholder="Dein Text hier" [(ngModel)]="inputs.description">
+        </div>
+        <div class="button-container">
+            <button [disabled]="!createNewChannel.valid"
+                (click)="onSubmit(createNewChannel)">
+                Erstellen
+            </button>
+        </div>
+    </form>
+</div>

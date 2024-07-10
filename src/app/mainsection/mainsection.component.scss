@@ -1,0 +1,195 @@
+@import "./../../styles.scss";
+
+.main-landing {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    background-color: $bg-color;
+    overflow-y: auto;
+}
+
+.disabled {
+    cursor: disabled;
+    opacity: 0.5;
+}
+
+.margin-right {
+    margin-right: 26px;
+}
+
+.margin-left {
+    margin-left: 26px;
+}
+
+.overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.025);
+    border-radius: 30px;
+}
+
+.content {
+    @include dFlex($jc: space-between);
+    margin-top: 25px;
+    height: 100%;
+    overflow-x: hidden;
+    position: relative;
+
+    app-sidebar,
+    app-channel,
+    app-thread {
+        height: 100%;
+        background-color: $white;
+        border-radius: 30px;
+        transition: margin 300ms ease-in-out;
+    }
+
+    app-sidebar {
+        width: 100%;
+        max-width: 366px;
+        overflow-y: auto;
+    }
+
+    app-channel {
+        width: 100%;
+    }
+
+    app-thread {
+        width: 100%;
+        overflow-y: hidden;
+        position: relative;
+        max-width: 485px;
+    }
+}
+
+.toggle-navbar {
+    position: absolute;
+    top: 95%;
+    left: 0;
+    height: 60px;
+    width: 347px;
+    @include dFlex($jc: center);
+    gap: 10px;
+    background-color: $white;
+    border-radius: 0 0 30px 30px;
+    transform-origin: -10% -50%;
+    transform: rotate(-90deg);
+    font: 500 20px "Nunito";
+    cursor: pointer;
+    box-shadow: 4px 4px 7px 0px #00000033;
+    z-index: 2;
+
+    .toggle-img-hide {
+        transition: transform 125ms ease-in-out;
+        background-image: url("/assets/img/mainsection/toggle-hide.svg");
+        width: 32px;
+        height: 32px;
+        rotate: 90deg;
+    }
+
+    &:hover {
+        color: $purple3;
+        font: 700 20px "Nunito";
+
+        .toggle-img-hide {
+            background-image: url("/assets/img/mainsection/toggle-hide-hovered.svg");
+        }
+    }
+}
+
+.rotate-toggle {
+    transform: rotate(180deg);
+}
+
+.hide-show {
+    visibility: hidden;
+    width: 0 !important;
+}
+
+@media screen and (max-width: 1600px) {
+    .content {
+        app-thread {
+            max-width: 366px;
+        }
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .content {
+        app-sidebar {
+            position: absolute;
+            top: 50%;
+            left: 0%;
+            transform: translateY(-50%);
+            z-index: 2;
+            box-shadow: 6px 0px 7px 0px #00000033;
+        }
+
+        app-thread {
+            position: absolute;
+            top: 50%;
+            right: 0%;
+            transform: translateY(-50%);
+            max-width: 366px;
+            width: 100%;
+            z-index: 1;
+            box-shadow: -6px 0px 7px 0px #00000033;
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .content {
+        app-thread,
+        app-sidebar {
+            max-width: 100%;
+            box-shadow: none;
+        }
+    }
+
+    .toggle-navbar {
+        top: 80%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    .toggle-navbar {
+        display: none;
+    }
+
+    .margin-right {
+        margin-right: 0 !important;
+    }
+
+    .margin-left {
+        margin-left: 0 !important;
+    }
+
+    .main-landing {
+        padding: 0;
+    }
+
+    app-header {
+        margin: 16px 16px;
+    }
+
+    .content {
+        margin: 0;
+
+        app-sidebar,
+        app-channel,
+        app-thread {
+            border-radius: 0;
+            overflow-y: scroll;
+        }
+    }
+}

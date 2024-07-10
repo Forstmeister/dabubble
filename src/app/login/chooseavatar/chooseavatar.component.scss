@@ -1,0 +1,277 @@
+@import "../../../styles.scss";
+@import "../login.component.scss";
+
+main {
+    padding: 40px 67px;
+
+    h3 {
+        font-size: 2rem;
+        font-weight: 700;
+    }
+}
+
+.login-btns {
+    @include dFlex($jc: end);
+    margin-top: 24px;
+}
+
+.title {
+    margin: 0;
+}
+
+span {
+    @include dFlex($jc: start);
+    margin: 16px 0;
+    font-size: 1.1875rem;
+}
+
+.avatar {
+    text-align: center;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    width: 168px;
+    height: 168px;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 50%;
+    }
+}
+
+.avatar-list {
+    @include dFlex($jc: space-between, $ai: center);
+    flex-wrap: wrap;
+    width: 100%;
+    height: 72px;
+    img {
+        height: 64px;
+        border-radius: 50%;
+        border: 4px solid transparent;
+        cursor: pointer;
+        &:hover {
+            border-color: #e6e6e6;
+            scale: 1.1;
+        }
+        &.selected {
+            border-color: $green;
+        }
+    }
+}
+
+.upload {
+    @include dFlex($ai: center);
+    width: 100%;
+    gap: 24px;
+    margin-top: 32px;
+    span {
+        width: max-content;
+    }
+    button {
+        background-color: $white;
+        color: $purple1;
+        border: 1px solid $purple1;
+        &:hover {
+            background-color: $purple1;
+            color: $white;
+        }
+    }
+}
+
+.loading-spinner {
+    position: absolute;
+    @include dFlex($ai: center, $jc: center);
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background-color: #444df2ce;
+}
+
+.spinner {
+    @include dFlex($ai: center, $jc: center);
+    flex-direction: column;
+    gap: 10px;
+    width: 186px;
+    height: 184px;
+}
+
+.spinner-top {
+    @include dFlex($ai: end, $jc: center);
+    gap: 10px;
+}
+
+.spinner-bottom {
+    @include dFlex($ai: start);
+    gap: 10px;
+}
+
+.img-with-dots {
+    position: relative;
+    @include dFlex($ai: center, $jc: center);
+    gap: 10px;
+    img {
+        animation: scaleAnimationImg 1.4s infinite;
+    }
+}
+
+.dots {
+    position: absolute;
+    @include dFlex($ai: center, $jc: center);
+    gap: 10px;
+    z-index: 1;
+    img {
+        animation: scaleAnimationDots 1.4s infinite;
+    }
+}
+
+.blub {
+    width: 58px;
+    height: 57px;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        animation: scaleAnimationBlub 1.4s infinite;
+    }
+}
+
+@keyframes scaleAnimationDots {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.1);
+    }
+    50% {
+        transform: scale(0.8);
+    }
+    75% {
+        transform: scale(1.2);
+    }
+}
+
+@keyframes scaleAnimationImg {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(0.8);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    75% {
+        transform: scale(0.8);
+    }
+}
+
+@keyframes scaleAnimationBlub {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.1);
+    }
+    50% {
+        transform: scale(0.8);
+    }
+    75% {
+        transform: scale(1.1);
+    }
+}
+
+@media screen and (orientation: landscape) and (max-width: 1181px) {
+    main {
+        div {
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    }
+
+    h3 {
+        font-size: 1.125rem;
+    }
+
+    span {
+        margin: 0 0 12px;
+    }
+
+    .avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .login-btns {
+        margin: 0 0 8px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .avatar {
+        width: 120px;
+        height: 120px;
+    }
+
+    .avatar-list {
+        justify-content: space-around;
+        img {
+            height: 60px;
+            width: 60px;
+        }
+    }
+
+    main {
+        h3 {
+            font-size: 1.25rem;
+        }
+    }
+
+    span {
+        font-size: 1.125rem;
+        margin: 12px 0;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .title {
+        h1 {
+            padding: 0 0 0 36px;
+        }
+    }
+
+    .login-btns {
+        margin: 16px 0;
+    }
+}
+
+@media screen and (max-width: 422px) {
+    .upload {
+        margin-top: 46px;
+        gap: 8px;
+    }
+
+    .avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .avatar-list {
+        img {
+            height: 56px;
+        }
+    }
+
+    .login-btns {
+        margin: 12px 0 0 0;
+    }
+
+    span {
+        font-size: 1rem;
+    }
+}

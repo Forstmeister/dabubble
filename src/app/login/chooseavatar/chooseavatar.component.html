@@ -1,0 +1,68 @@
+<section>
+    <header>
+        <div>
+            <img src="../../assets/img/Logo.png" alt="Logo">
+            <h1>DaBubble</h1>
+        </div>
+    </header>
+    <main>
+        <div class="back-arrow" routerLink="/register"></div>
+        <div class="title">
+            <h1>Wähle deinen Avatar</h1>
+        </div>
+        <div class="avatar">
+            <img [src]="selectedAvatar">
+        </div>
+        <h3>{{userName}}</h3>
+        <span>Aus der Liste wählen</span>
+        <div class="avatar-list">
+            <img *ngFor="let avatar of avatars" [src]="avatar" (click)="selectAvatar(avatar)"
+                [ngClass]="{'selected': avatar === selectedAvatar}">
+        </div>
+        <div class="upload">
+            <span>eigenes Bild verwenden </span>
+            <button (click)="triggerFileInput()">Datei hochladen</button>
+            <input type="file" #fileInput id="fileInput" (change)="refFile(fileInput)" hidden>
+        </div>
+        <div class="login-btns">
+            <button (click)="registerUser()">weiter</button>
+        </div>
+    </main>
+    <footer>
+        <a routerLink="/imprint">Impressum</a>
+        <a routerLink="/privacypolicy">Datenschutz</a>
+    </footer>
+    <div class="loading-spinner" *ngIf="showLoading">
+        <div class="spinner">
+            <div class="spinner-top">
+                <div class="blub">
+                    <img src="../../assets/img/login/logo_spinner/blub1.png">
+                </div>
+                <div class="img-with-dots">
+                    <div class="dots">
+                        <img src="../../assets/img/login/logo_spinner/dot.png">
+                        <img src="../../assets/img/login/logo_spinner/dot.png">
+                        <img src="../../assets/img/login/logo_spinner/dot.png">
+                    </div>
+                    <img src="../../assets/img/login/logo_spinner/blub_green.png">
+                </div>
+            </div>
+            <div class="spinner-bottom">
+                <div class="img-with-dots">
+                    <div class="dots">
+                        <img src="../../assets/img/login/logo_spinner/dot.png">
+                        <img src="../../assets/img/login/logo_spinner/dot.png">
+                        <img src="../../assets/img/login/logo_spinner/dot.png">
+                    </div>
+                    <img src="../../assets/img/login/logo_spinner/blub_orange.png">
+                </div>
+                <div class="blub">
+                    <img src="../../assets/img/login/logo_spinner/blub2.png">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="success-popup" [@slideInOut]="popupState">
+        <span>Konto erfolgreich erstellt!</span>
+    </div>
+</section>

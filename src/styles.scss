@@ -1,0 +1,240 @@
+@import "@ctrl/ngx-emoji-mart/picker";
+@import "./dialog.scss";
+
+$purple1: #444df2;
+$purple2: #797ef3;
+$purple3: #535af1;
+$light-purple: #adb0d9;
+$bg-color: #eceefe;
+$error: #ed1e79;
+$text-gray: #686868;
+$white: #ffffff;
+$black: #000000;
+$green: #92c83e;
+
+@mixin dFlex($jc: flex-start, $ai: center) {
+    display: flex;
+    justify-content: $jc;
+    align-items: $ai;
+}
+
+/* figtree-regular - latin */
+@font-face {
+    font-display: swap;
+    font-family: "Figtree";
+    font-style: normal;
+    font-weight: 400;
+    src: url("./assets/fonts/figtree-v5-latin-regular.woff2") format("woff2");
+}
+
+/* figtree-500 - latin */
+@font-face {
+    font-display: swap;
+    font-family: "Figtree";
+    font-style: normal;
+    font-weight: 500;
+    src: url("./assets/fonts/figtree-v5-latin-500.woff2") format("woff2");
+}
+
+/* nunito-regular - latin */
+@font-face {
+    font-display: swap;
+    font-family: "Nunito";
+    font-style: normal;
+    font-weight: 400;
+    src: url("./assets/fonts/nunito-v26-latin-regular.woff2") format("woff2");
+}
+
+/* nunito-500 - latin */
+@font-face {
+    font-display: swap;
+    font-family: "Nunito";
+    font-style: normal;
+    font-weight: 500;
+    src: url("./assets/fonts/nunito-v26-latin-500.woff2") format("woff2");
+}
+
+/* nunito-700 - latin */
+@font-face {
+    font-display: swap;
+    font-family: "Nunito";
+    font-style: normal;
+    font-weight: 700;
+    src: url("./assets/fonts/nunito-v26-latin-700.woff2") format("woff2");
+}
+
+/* open-sans-regular - latin */
+@font-face {
+    font-display: swap;
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: 400;
+    src: url("./assets/fonts/open-sans-v40-latin-regular.woff2") format("woff2");
+}
+
+/* open-sans-700 - latin */
+@font-face {
+    font-display: swap;
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: 700;
+    src: url("./assets/fonts/open-sans-v40-latin-700.woff2") format("woff2");
+}
+
+* {
+    font-family: "Nunito", sans-serif !important;
+    caret-color: transparent;
+    box-sizing: border-box;
+    margin: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    height: 100dvh;
+    background-color: $bg-color;
+}
+
+.emoji-mart-preview {
+    display: none !important;
+}
+
+.highlighted {
+    color: #746600d8;
+    font-weight: 600;
+    text-shadow: #ffffff 1px 1px 2px;
+    background-color: $bg-color;
+    border-radius: 30px;
+    padding: 4px 6px;
+}
+
+.emoji-mart-right {
+    position: absolute;
+    bottom: -22px;
+    right: 102px;
+    z-index: 999;
+    width: 273px;
+    cursor: pointer;
+    box-shadow: -6px 4px 18px -6px rgba(0, 0, 0, 0.23);
+}
+
+.emoji-mart-left {
+    width: 273px;
+    position: absolute;
+    bottom: -22px;
+    right: 0;
+    left: 30px;
+    z-index: 999;
+    cursor: pointer;
+    box-shadow: 76px 4px 11px 0px rgba(0, 0, 0, 0.2);
+}
+
+.emoji-mart-left-thread {
+    width: 273px;
+    position: absolute;
+    bottom: -38px;
+    right: 0;
+    left: 11px;
+    z-index: 999;
+    cursor: pointer;
+    box-shadow: 76px 4px 11px 0px rgba(0, 0, 0, 0.2);
+}
+
+.emoji-mart-right-thread {
+    position: absolute;
+    bottom: 17px;
+    right: 83px;
+    z-index: 999;
+    width: 273px;
+    cursor: pointer;
+    box-shadow: -6px 4px 18px -6px rgba(0, 0, 0, 0.23);
+}
+
+.emoji-mart-scroll {
+    height: var(--emoji-mart-scroll-height) !important;
+}
+
+.single-emoji {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
+
+    &:hover {
+        background-color: $bg-color;
+        border-radius: 50%;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: $light-purple;
+    margin: 28px 0;
+    border-radius: 30px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: $purple2;
+    border-radius: 30px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: $purple3;
+}
+
+.d-none {
+    display: none !important;
+}
+
+.online {
+    color: $green;
+}
+
+.online-div {
+    background-color: $green;
+}
+
+.offline {
+    color: $text-gray;
+}
+
+.offline-div {
+    background-color: $text-gray;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background-color: $text-gray !important;
+}
+
+.success-popup {
+    @include dFlex($jc: center, $ai: center);
+    position: absolute;
+    background-color: $purple1;
+    border-radius: 30px 30px 0 30px;
+    padding: 40px;
+    margin-left: 16px;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0;
+    z-index: 1;
+
+    img {
+        margin-right: 20px;
+    }
+
+    span {
+        margin: 0;
+        color: $white;
+        font-size: 2.25rem;
+        font-weight: 700;
+    }
+}

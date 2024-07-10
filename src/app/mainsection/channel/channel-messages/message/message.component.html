@@ -1,0 +1,162 @@
+<div #scroll id="messageContainer" ref={messageContainer} class="channel-conversation-container">
+    @if (channelService.messages.length != 0 && channelService.messagesLoaded==true ) {
+
+    <div *ngFor="let message of channelService.messages; let i = index; let isEven = even; let isLast = last">
+        @if (i == 0 || (i != 0 && isNewDate(channelService.messages[i-1].timestamp, message.timestamp))) {
+        <div class="divider-container">
+            <div class="divider">
+                <span
+                    *ngIf="(message.timestamp | date: 'longDate':'': 'de') !== (dateToday | date: 'longDate':'': 'de')">{{message.timestamp
+                    | date: 'longDate':'': 'de'}}</span>
+                <span
+                    *ngIf="(message.timestamp | date: 'longDate':'': 'de') == (dateToday | date: 'longDate':'': 'de')">Heute</span>
+            </div>
+        </div>
+        }
+        <div [id]="'singleMessage-'+i" #singleMessage [ngClass]="{ 'inverted-message': userId == message.id}"
+            class="single-message-container">
+            <div [ngClass]="{ 'interaction-container-inverted': userId == message.id }" class="interaction-container">
+                <ngx-emoji [ngClass]="'single-emoji'" (emojiClick)="onAddCheckEmoji($event,i,message.id,userId)"
+                    [size]="27" emoji="white_check_mark" set="google"></ngx-emoji>
+                <ngx-emoji [ngClass]="'single-emoji'" (emojiClick)="onAddRaisedHandsEmoji($event,i,message.id,userId)"
+                    [size]="30" emoji="raised_hands" set="google"></ngx-emoji>
+                <div (click)="toggleEmojiPicker(i);toggleEvent($event,i)" class="add-reaction-icon"></div>
+                <div *ngIf="userId != message.id && !channelService.privateMsg" (click)="showThreadBar(message)"
+                    class="comment-message-icon"></div>
+                <div *ngIf="userId == message.id" (click)="toggleOpenEditMessage(i);toggleEvent($event,i)"
+                    class="edit-message-icon"></div>
+                <div #editMessageContainer id="editMessageContainer" appOutsideclick
+                    (outsideClick)="onOutsideClick(i,$event)" [attr.data-index]="i"
+                    [ngClass]="{'edit-message-left': userId == message.id, 'edit-message-right': userId != message.id}"
+                    *ngIf="emojiService.openEditMessageToggle[i]  && userId == message.id">
+                    <span class="edit-message-span" (click)="editMessageFunction(i)">Nachricht bearbeiten</span>
+                </div>
+            </div>
+            <div class="profile-picture">
+                <img referrerpolicy="no-referrer" [src]="message.profilePicture" />
+            </div>
+            <div class="message-wrapper">
+                <div class="message-head">
+                    <div class="message-info">
+                        <span (click)="getOtherUserData(message.id)">{{ message.name }}</span>
+                        <div class="message-timestamp">
+                            <span>{{ message.timestamp | date:'shortTime':'':'de' }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message">
+                    <span *ngIf="!emojiService.editMessage[i]" [innerHTML]="highlightUsernames(message.message)"></span>
+                    <form #editMessageForm="ngForm" appOutsideclick (outsideClick)="onOutsideClick(i,$event)"
+                        [ngClass]="{'edit-message': userId == message.id, 'edit-message-inverted': userId != message.id }"
+                        *ngIf="emojiService.editMessage[i] && userId == message.id"
+                        (ngSubmit)="onSubmit(editMessageForm, i)">
+                        <textarea class="text-area-editable" name="editMessageTextarea" [attr.data-index]="i"
+                            [id]="'editMessageTextarea-' + i" [(ngModel)]="newMessage.message"
+                            (focus)="toggleEvent($event,i)" (keyup)="onKeyup($event, editMessageForm, i)">
+                            </textarea>
+                        <div class="edit-Message-control">
+                            <button type="submit" class="edit-message-button">Speichern</button>
+                            <button type="button" (click)="editMessageAbort(i)"
+                                class="edit-message-button">Abbrechen</button>
+                        </div>
+                    </form>
+                    <span
+                        *ngIf="message.uploadedFile && message.uploadedFile.src && message.uploadedFile.type && !emojiService.editMessage[i]"
+                        class="uploaded-file">
+                        <a *ngIf="message.uploadedFile.type==='image/jpeg'" href="{{message.uploadedFile.src}}"
+                            target="_blank">
+                            <img [src]="message.uploadedFile.src" alt="uploaded file" /></a>
+                        <img *ngIf="message.uploadedFile.type==='application/pdf'" [src]="'assets/img/pdfDefault.jpg'"
+                            alt="PDF Preview" style="cursor: pointer;" (click)="openPdf(message.uploadedFile.src)" />
+                        <p *ngIf="message.uploadedFile.type==='application/pdf'">
+                            {{ message.uploadedFile.name}}</p>
+                    </span>
+                    <div id="emojiPickerContainer-{{i}}">
+                        <emoji-mart [darkMode]=false #emojiPickerContainer [emojiTooltip]=true [showSingleCategory]=true
+                            [enableSearch]=false appOutsideclick (outsideClick)="onOutsideClick(i,$event)"
+                            [ngClass]="{'emoji-mart-left': userId == message.id, 'emoji-mart-right': userId != message.id}"
+                            (emojiClick)="onAddEmoji($event,i,message.id,userId);updateMessageAfterEmojiSelection(i)"
+                            *ngIf="emojiService.showEmojiPickerArray[i]" set="google"></emoji-mart>
+                    </div>
+                </div>
+                <div class="selected-emoji">
+                    <span *ngFor="let emojiData of message.emoji; let e = index" (mouseenter)="onMouseEnter(i, e)"
+                        (mouseleave)="onMouseLeave()"
+                        (click)="onUpdateReaction(e, i, message.emoji[e].emoji, message.id, userId)" class="emoji-span">
+                        {{ emojiData.emoji }}
+                        <ng-container *ngIf="message.emoji[e].count > 1">
+                            {{ message.emoji[e].count }}
+                        </ng-container>
+                        <div *ngIf="hoveredMessageIndex === i && hoveredEmojiIndex === e"
+                            [ngClass]="{'show-reactions-inverted' : userId != message.id, 'show-reactions' : userId == message.id}">
+                            <ng-container *ngIf="emojiData.users.length > 0">
+                                <span>{{ emojiData.emoji }}</span>
+                                <span class="reaction-user-names" *ngFor="let emojiUserId of emojiData.users">
+                                    <span *ngIf="emojiUserId === userService.currentUser">Du</span>
+                                    <span *ngIf="emojiUserId !== userService.currentUser">
+                                        {{ getUsernameByUserId(emojiUserId) }}
+                                    </span>
+                                </span>
+                                <span *ngIf="emojiData.users.length === 1">Hat reagiert</span>
+                                <span *ngIf="emojiData.users.length > 1">Haben reagiert</span>
+                            </ng-container>
+                            <ng-container *ngIf="emojiData.users.length === 0">
+                                <span>{{ emojiData.emoji }}</span>
+                                <span class="reaction-user-names">Du</span>
+                                <span>Hast reagiert</span>
+                            </ng-container>
+                        </div>
+                    </span>
+                </div>
+                <div *ngIf="channelService.channelMsg" class="message-reply-wrapper">
+                    <div class="message-replies">
+                        <span *ngIf="message.repliesCount > 1" (click)="showThreadBar(message)">{{ message.repliesCount
+                            }} Antworten</span>
+                        <span *ngIf="message.repliesCount <= 1" (click)="showThreadBar(message)">{{ message.repliesCount
+                            }} Antwort</span>
+                    </div>
+                    <div class="reply-timestamp">
+                        <span
+                            *ngIf="message.repliesCount >= 1 && (dateToday | date:'shortDate':'':'de') !== (message.lastReply | date:'shortDate':'':'de')">Letzte
+                            Antwort {{ message.lastReply |
+                            date:'shortDate':'':'de' }}</span>
+                        <span
+                            *ngIf="message.repliesCount >= 1 && (dateToday | date:'shortDate':'':'de') === (message.lastReply | date:'shortDate':'':'de')">Letzte
+                            Antwort {{ message.lastReply |
+                            date:'shortTime':'':'de' }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    } @else if (channelService.messages.length == 0 && channelService.messagesLoaded === true &&
+    channelService.privateMsg) {
+    <div class="wrapper-start-msg">
+        <div class="user-info" (click)="getOtherUserData(channelService.privateMsgData.id)">
+            <img [src]="channelService.privateMsgData['profilePicture']" alt="">
+            <span>{{channelService.privateMsgData['name']}}</span>
+        </div>
+        <div class="start-text">
+            <span>Diese Unterhaltung findet nur zwischen <span
+                    (click)="getOtherUserData(channelService.privateMsgData.id)"
+                    class="name-clickable">&#64;{{channelService.privateMsgData['name']}}</span> und dir statt.</span>
+        </div>
+    </div>
+    } @else if (channelService.messages.length == 0 && channelService.messagesLoaded === true &&
+    channelService.channelMsg) {
+    <div class="wrapper-start-msg">
+        <div class="channel-info">
+            <span># {{channelService.channelMsgData['title']}}</span>
+        </div>
+        <div class="start-text">
+            <span *ngIf="channelService.channelMsgData['creator'] === userService.userInfo.name">Du hast diesen Channel
+                heute erstellt. Das ist der Anfang des Channels <span class="color-purple">#
+                    {{channelService.channelMsgData['title']}}.</span> </span>
+            <span
+                *ngIf="channelService.channelMsgData['creator'] !== userService.userInfo.name">{{channelService.channelMsgData.creator}}
+                hat diesen Channel heute erstellt. Das ist der Anfang des Channels <span class="color-purple">#
+                    {{channelService.channelMsgData['title']}}.</span> </span>
+        </div>
+    </div>
+    }
+</div>

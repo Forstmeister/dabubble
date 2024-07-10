@@ -1,0 +1,203 @@
+@if (channelService.channelMsg) {
+<div class="thread-container">
+  <div class="thread-head">
+    <div class="thread-head-left-side">
+      <span>Thread</span>
+      <div class="channel-name">
+        <span>#</span>
+        <div *ngIf="channelService.channelMsg">{{channelService.channelMsgData.title}}</div>
+        <!-- <div *ngIf="channelService.privateMsg">{{channelService.privateMsgData.title}}</div> -->
+      </div>
+    </div>
+    <div (click)="closeThread()" class="close-icon "></div>
+  </div>
+</div>
+@if (threadService.isActive) {
+<div class="thread-conversation-container" #scrollContainer id="scrollContainer" ref="{scrollContainer}">
+  <div class="single-message-container">
+    <div class="profile-picture">
+      <img [src]="threadService.originMessage.profilePicture" />
+    </div>
+    <div class="message-wrapper">
+      <div class="message-head">
+        <div class="message-info">
+          <span (click)="openDialogUserInfo(threadService.originMessage)"> {{threadService.originMessage.name}}</span>
+          <div class="message-timestamp">
+            <span
+              *ngIf="(dateToday | date:'shortDate':'':'de') !== (threadService.originMessage.timestamp | date:'shortDate':'':'de') ">{{threadService.originMessage.timestamp
+              | date:'short':'':'de'}}</span>
+            <span
+              *ngIf="(dateToday | date:'shortDate':'':'de') == (threadService.originMessage.timestamp | date:'shortTime':'':'de') ">{{threadService.originMessage.timestamp
+              | date:'short':'':'de'}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="message">
+        <span> {{threadService.originMessage.message}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="divider-container">
+    <span>{{threadService.messages.length}} Antworten</span>
+    <div class="divider"></div>
+  </div>
+  <div class="message-complete"
+    *ngFor="let message of  threadService.messages ; let i = index; let isEven = even; let isLast = last">
+    <div class="single-message-container" [ngClass]="{ 'inverted-message': message.id == userId}">
+      <div [ngClass]="{'interaction-container-inverted' : message.id == userId}" class="interaction-container ">
+        <div (click)="toggleEmojiPicker(i);toggleEvent($event)" class="add-reaction-icon"></div>
+        <div #editMessageContainer id="editMessageContainer" appOutsideclick (outsideClick)="onOutsideClick(i,$event)"
+          [ngClass]="{'edit-message-left': message.id == userId, 'edit-message-right': userId != message.id}"
+          *ngIf="emojiService.openEditMessageToggleThread[i]  && message.id == userId">
+          <span class="edit-message-span" (click)="editMessageFunction(i,$event)">Nachricht bearbeiten</span>
+        </div>
+        <div *ngIf="message.id == userId" (click)="toggleOpenEditMessage(i);toggleEvent($event)"
+          class="edit-message-icon">
+        </div>
+        <div #editMessageContainer id="editMessageContainer" appOutsideclick (outsideClick)="onOutsideClick(i,$event)"
+          [attr.data-index]="i"
+          [ngClass]="{'edit-message-left': message.id == userId, 'edit-message-right': userId != message.id}"
+          *ngIf="emojiService.openEditMessageToggleThread[i]  && message.id == userId">
+          <span class="edit-message-span" (click)="editMessageFunction(i,$event)">Nachricht
+            bearbeiten</span>
+        </div>
+      </div>
+      <div id="emojiPickerContainer-thread-{{i}}">
+        <emoji-mart [darkMode]=false #emojiPickerContainerThread [emojiTooltip]=true [showSingleCategory]=true
+          [enableSearch]=false appOutsideclick (outsideClick)="onOutsideClick(i,$event)" [totalFrequentLines]="1"
+          [ngClass]="{'emoji-mart-left-thread': message.id == userId,  'emoji-mart-right-thread': message.id != userId }"
+          (emojiClick)="onAddEmoji($event,i,message.id,userId);updateMessageAfterEmojiSelection(i)"
+          *ngIf="emojiService.showEmojiPickerArrayThread[i]" set="google"></emoji-mart>
+      </div>
+      <div class="profile-picture">
+        <img referrerpolicy="no-referrer" [src]="message.profilePicture" />
+      </div>
+      <div class="message-wrapper">
+        <div class="message-head">
+          <div class="message-info">
+            <span (click)="openDialogUserInfo(message)"> {{message.name}}</span>
+            <div class="message-timestamp">
+              <span
+                *ngIf="(dateToday | date:'shortDate':'':'de') !== (message.timestamp | date:'shortDate':'':'de') ">{{message.timestamp
+                | date:'short':'':'de'}}</span>
+              <span
+                *ngIf="(dateToday | date:'shortDate':'':'de') == (message.timestamp | date:'shortDate':'':'de') ">{{message.timestamp
+                | date:'shortTime':'':'de'}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="message">
+          <span *ngIf="!emojiService.editMessageThread[i]" [innerHTML]="highlightUsernames(message.message)"></span>
+          <form class="edit-message-form-container" #editMessageThreadForm="ngForm" appOutsideclick
+            (outsideClick)="onOutsideClick(i,$event)"
+            [ngClass]="{'edit-message': userId == message.id, 'edit-message-inverted': userId != message.id }"
+            *ngIf="emojiService.editMessageThread[i] && userId == message.id"
+            (ngSubmit)="editMessageSubmit(editMessageThreadForm, i)">
+            <textarea class="text-area-editable" name="editThreadMessageTextarea" [attr.data-index]="i"
+              [id]="'editThreadMessageTextarea-' + i" [(ngModel)]="newMessage.message" (focus)="toggleEvent($event)"
+              (keyup)="onKeyup($event, editMessageThreadForm, i)">
+            </textarea>
+            <div class="edit-Message-control">
+              <button type="submit" class="edit-message-button">Speichern</button>
+              <button type="button" (click)="editMessageAbort(i)" class="edit-message-button">Abbrechen</button>
+            </div>
+          </form>
+          <div
+            *ngIf="message.uploadedFile && message.uploadedFile.src && message.uploadedFile.type && !emojiService.editMessageThread[i]"
+            class="uploaded-file">
+            <a *ngIf="message.uploadedFile.type==='image/jpeg'" href="{{message.uploadedFile.src}}" target="_blank">
+              <img [src]="message.uploadedFile.src" alt="uploaded file" /></a>
+            <img *ngIf="message.uploadedFile.type==='application/pdf'" [src]="'assets/img/pdfDefault.jpg'"
+              alt="PDF Preview" style="cursor: pointer;" (click)="openPdf(message.uploadedFile.src)" />
+            <p *ngIf="message.uploadedFile.type==='application/pdf'">
+              {{ message.uploadedFile.name}}</p>
+          </div>
+        </div>
+        <div class="selected-emoji">
+          <span *ngFor="let emojiData of message.emoji; let e = index" (mouseenter)="onMouseEnter(i, e)"
+            (mouseleave)="onMouseLeave()" (click)="onUpdateReaction(e, i, message.emoji[e].emoji, message.id, userId)"
+            class="emoji-span">
+            {{ emojiData.emoji }}
+            <ng-container *ngIf="message.emoji[e].count > 1">
+              {{ message.emoji[e].count }}
+            </ng-container>
+            <div *ngIf="hoveredMessageIndexThread === i && hoveredEmojiIndexThread === e"
+              [ngClass]="{'show-reactions': userId == message.id, 'show-reactions-inverted': userId != message.id }">
+              <ng-container *ngIf="emojiData.users.length > 0">
+                <span>{{ emojiData.emoji }}</span>
+                <span class="reaction-user-names" *ngFor="let emojiUserId of emojiData.users">
+                  <span *ngIf="emojiUserId === userService.currentUser">Du</span>
+                  <span *ngIf="emojiUserId !== userService.currentUser">
+                    {{ getUsernameByUserId(emojiUserId) }}
+                  </span>
+                </span>
+                <span *ngIf="emojiData.users.length === 1">Hat reagiert</span>
+                <span *ngIf="emojiData.users.length > 1">Haben reagiert</span>
+              </ng-container>
+              <ng-container *ngIf="emojiData.users.length === 0">
+                <span>{{ emojiData.emoji }}</span>
+                <span class="reaction-user-names">Du</span>
+                <span>Hast reagiert</span>
+              </ng-container>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    *ngIf="storageService.fileUrlTextareaThread !== '' && storageService.fileNameTextareaThread !== '' && !storageService.wrongFileType && !storageService.fileSizeToBigThread"
+    class="file-preview" appOutsideclick (outsideClick)="  onOutsideClickFileUploadPreview($event)">
+    <img *ngIf="storageService.isImage(storageService.filesTextareaThread?.item(0))"
+      [src]="storageService.fileUrlTextareaThread" alt="File Preview">
+    <img *ngIf="storageService.isPdf(storageService.filesTextareaThread?.item(0))"
+      [src]="storageService.fileUrlTextareaThread" alt="PDF Preview" style="cursor: pointer;"
+      (click)="openPdf(storageService.pdfUrlThread)" />
+    <p *ngIf="storageService.isPdf(storageService.filesTextareaThread?.item(0))">
+      {{ storageService.fileNameTextareaThread }}</p>
+    <div class="close-icon-upload"
+      *ngIf="storageService.fileUrlTextareaThread !== '' && storageService.fileUrlTextareaThread !== null && storageService.fileUrlTextareaThread !== undefined"
+      (click)="storageService.abortUploadForThread();clearFileInput() "></div>
+  </div>
+  <div *ngIf="isTagUserOpen" class="tag-user-list" appOutsideclick (outsideClick)="  onOutsideClickTagArea()">
+    <span *ngFor="let user of tagUserList">
+      <span class="tag-user-selection" (click)="onUserClick(user)">
+        {{ user }}
+      </span>
+    </span>
+  </div>
+  <div class="form-group">
+    <form #formThread="ngForm" name="form" (ngSubmit)="onSubmit(formThread)">
+      <textarea class="thread-message-input form-control" name="message" #threadMessageContent id="threadMessageContent"
+        [(ngModel)]="messageThread.content" placeholder="Antworten..." minlength="2"
+        [ngClass]="{ 'focus-visible-thread-invalid': !formThread.valid  && (formThread.touched || submitClick) && textareaBlur }"
+        (keyup.enter)="onSubmit(formThread)" (blur)=" textareaBlur=false">
+      </textarea>
+      <div class="thread-message-icons">
+        <div class="add-icon" (click)="triggerFileInput()"></div>
+        <input type="file" #fileInputThread (change)="onFileSelected($event)" style="display: none;" />
+        <div class="icon-divider"></div>
+        <div class="emoji-icon" (click)="toggleEmojiPickerEventTextarea($event)"></div>
+        <div class="tag-icon" (click)="tagUser($event)"></div>
+      </div>
+      <div class="send-icon" (click)="onSubmit(formThread)"></div>
+    </form>
+  </div>
+  <div class="error-message" *ngIf="!formThread.valid && (formThread.touched || submitClick) && textareaBlur">Inhalt
+    mit min. 2 Zeichen erforderlich !
+  </div>
+  <div class="error-message" *ngIf="storageService.fileSizeToBigThread && threadService.isActive">
+    Die Datei ist zu groß !
+  </div>
+  <div class="error-message" *ngIf="storageService.wrongFileType && threadService.isActive">
+    falsche Dateitype ! Bitte lade ein jpg oder eine PDF hoch.
+  </div>
+  <div id="emojiPickerContainerThreadMessage">
+    <emoji-mart [darkMode]=false #emojiPickerContainerThreadMessage [emojiTooltip]=true [showSingleCategory]=true
+      [totalFrequentLines]="1" [enableSearch]=false [ngClass]="'emoji-container-default'" appOutsideclick
+      (outsideClick)="onOutsideClickTextarea()" (emojiClick)="addThreadMessageEmoji($event)"
+      *ngIf="isEmojiPickerVisibleThreadMessageInput" set="google"></emoji-mart>
+  </div>
+</div>
+}
+}

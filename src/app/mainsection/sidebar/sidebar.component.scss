@@ -1,0 +1,400 @@
+@import "./../../../styles.scss";
+
+.sidebar-container {
+  @include dFlex();
+  padding: 32px 30px;
+  border-radius: 30px;
+  flex-direction: column;
+}
+
+.search-bar {
+  display: none;
+  padding: 8px 12px 8px 20px;
+  width: 100%;
+  height: 48px;
+  border-radius: 42px;
+  border: 1px solid $light-purple;
+  margin: 0 20px 20px;
+
+  input {
+    width: 100%;
+    height: 33px;
+    padding: 0;
+    outline: none;
+    border: none;
+    font: 400 16px "Nunito";
+    color: $text-gray;
+    caret-color: black;
+  }
+
+  img {
+    width: 34px;
+    height: 34px;
+    border-radius: 50% 50%;
+    object-fit: cover;
+    padding: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(0.1, 0.1, 0.1, 0.05);
+    }
+  }
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.headline-container {
+  @include dFlex($jc: space-between);
+  width: 100%;
+}
+
+.header-logo {
+  margin-right: 13.5px;
+
+  > img {
+    width: 60px;
+  }
+}
+
+.headline-left {
+  @include dFlex();
+
+  > span {
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
+
+.edit-icon {
+  height: 40px;
+  width: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  background-image: url("/assets/img/icons/edit_square.svg");
+
+  &:hover {
+    background-image: url("/assets/img/icons/edit_square_hover.svg");
+    background-color: $bg-color;
+    border-radius: 50%;
+  }
+
+  &:active {
+    background-image: url("/assets/img/icons/edit_square_bold.svg");
+  }
+}
+
+.channel-container {
+  @include dFlex($jc: center);
+  width: 100%;
+  margin-top: 25px;
+  padding: 5px 10px;
+  flex-direction: column;
+}
+
+.channels {
+  @include dFlex($jc: space-between);
+  width: 100%;
+}
+
+.channel-left-side {
+  @include dFlex();
+}
+
+.channel-head {
+  @include dFlex($jc: center);
+  cursor: pointer;
+  gap: 10px;
+
+  > span {
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  &:hover {
+    .arrow-down-icon {
+      background-image: url("/assets/img/icons/arrow_drop_down_hover.svg");
+    }
+
+    .channel-icon {
+      background-image: url("/assets/img/icons/workspaces_hover.svg");
+    }
+
+    > span {
+      color: $purple1;
+    }
+  }
+}
+
+.arrow-down-icon {
+  height: 40px;
+  width: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  background-image: url("/assets/img/icons/arrow_drop_down.svg");
+
+  &:hover {
+    background-image: url("/assets/img/icons/arrow_drop_down_hover.svg");
+  }
+}
+
+.channel-icon {
+  @include dFlex($jc: center);
+  height: 40px;
+  width: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  background-image: url("/assets/img/icons/workspaces.svg");
+
+  &:hover {
+    background-image: url("/assets/img/icons/workspaces_hover.svg");
+  }
+}
+
+.channel-head-plus-icon {
+  cursor: pointer;
+  @include dFlex($jc: center);
+  height: 40px;
+  width: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("/assets/img/icons/add_bold.svg");
+
+  &:hover {
+    background-image: url("/assets/img/icons/add_hover.svg");
+    background-color: $bg-color;
+    border-radius: 50%;
+  }
+
+  &:active {
+    background-image: url("/assets/img/icons/add_bold.svg");
+  }
+}
+
+.channel-wrapper {
+  @include dFlex($ai: flex-start);
+  flex-direction: column;
+  margin-left: 45px;
+  width: 100%;
+}
+
+.single-channel-container {
+  border-radius: 20px;
+  padding: 4px 20px;
+  margin-top: 25px;
+  cursor: pointer;
+  @include dFlex();
+  gap: 10px;
+
+  .channel-hash {
+    height: 24px;
+    width: 24px;
+    font-weight: bold;
+    @include dFlex($jc: center);
+    background-image: url("/assets/img/icons/tag.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 24px;
+    width: 24px;
+  }
+
+  .channel-name {
+    @include dFlex($jc: center);
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  &:hover {
+    background-color: $bg-color;
+    color: $purple3;
+
+    .channel-hash {
+      background-image: url("/assets/img/icons/tag_hover.svg");
+    }
+  }
+}
+
+.channel-active {
+  background-color: $bg-color;
+  color: $purple3;
+
+  .channel-hash {
+    background-image: url("/assets/img/icons/tag_hover.svg");
+  }
+}
+
+.add-new-channel-container {
+  @include dFlex();
+  gap: 10px;
+  margin: 25px 0 0 12px;
+  cursor: pointer;
+
+  > span {
+    font-size: 18px;
+  }
+
+  &:hover {
+    .add-new-channel-icon {
+      background-image: url("/assets/img/icons/add_circle_hover.svg");
+    }
+
+    > span {
+      color: $purple1;
+    }
+  }
+}
+
+.add-new-channel-icon {
+  cursor: pointer;
+  @include dFlex($jc: center);
+  height: 40px;
+  width: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("/assets/img/icons/add_circle.svg");
+
+  &:hover {
+    background-image: url("/assets/img/icons/add_circle_hover.svg");
+  }
+}
+
+.direct-message-head {
+  cursor: pointer;
+  @include dFlex();
+  width: 100%;
+  gap: 10px;
+
+  > span {
+    font-size: 18px;
+  }
+
+  &:hover {
+    .message-icon {
+      background-image: url("/assets/img/icons/account_circle_hover.svg");
+    }
+
+    .arrow-down-icon {
+      background-image: url("/assets/img/icons/arrow_drop_down_hover.svg");
+    }
+
+    > span {
+      color: $purple1;
+    }
+  }
+}
+
+.message-icon {
+  cursor: pointer;
+  @include dFlex($jc: center);
+  height: 40px;
+  width: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("/assets/img/icons/account_circle.svg");
+
+  &:hover {
+    background-image: url("/assets/img/icons/account_circle_hover.svg");
+  }
+}
+
+.direct-message-container {
+  @include dFlex();
+  width: 100%;
+  margin-top: 34.5px;
+  padding: 5px 10px;
+}
+
+.messages-container {
+  @include dFlex($ai: flex-start);
+  flex-direction: column;
+  gap: 13px;
+  width: 100%;
+  margin-top: 25px;
+}
+
+.message {
+  position: relative;
+  cursor: pointer;
+  padding: 4px 20px;
+  @include dFlex($jc: center);
+  margin-left: 25px;
+  gap: 15px;
+
+  > img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50% 50%;
+  }
+
+  > span {
+    font-size: 18px;
+  }
+
+  &:hover {
+    background-color: $bg-color;
+    border-radius: 30px;
+
+    > span {
+      color: $purple1;
+    }
+  }
+}
+
+.private-message-active {
+  background-color: $bg-color;
+  border-radius: 30px;
+
+  > span {
+    color: $purple1;
+  }
+}
+
+.online-indicator {
+  position: absolute;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  left: 53px;
+  bottom: 3px;
+  border: 2px solid white;
+}
+
+@media screen and (max-width: 960px) {
+  .search-bar {
+    @include dFlex($jc: space-between);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .search-bar {
+    margin: 0 20px;
+  }
+
+  .sidebar-container {
+    padding: 32px 16px;
+  }
+  .channel-container,
+  .direct-message-container {
+    padding: 0;
+  }
+  .headline-left {
+    display: none;
+  }
+  .edit-icon-mobile {
+    position: sticky;
+    left: 78%;
+    bottom: 24px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-image: url("/assets/img/icons/edit_square_white.svg");
+    background-color: $purple1;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 30px;
+  }
+}

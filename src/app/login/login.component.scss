@@ -1,0 +1,530 @@
+@import "./../../styles.scss";
+
+section {
+    position: relative;
+    height: 100dvh;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+header {
+    position: absolute;
+    top: 0;
+    left: 75px;
+    right: 63px;
+    margin-top: 55px;
+    height: 70px;
+    @include dFlex($jc: space-between, $ai: center);
+    div:nth-child(1) {
+        @include dFlex($ai: center);
+        img {
+            width: 70px;
+            height: 70px;
+            margin-right: 16px;
+        }
+    }
+    div:nth-child(2) {
+        @include dFlex($ai: end);
+        flex-direction: column;
+        span {
+            font-size: 1.125rem;
+            margin: 0 12px 20px 0;
+        }
+    }
+}
+
+main {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 96%;
+    max-width: 606px;
+    margin: 0 auto;
+    @include dFlex($jc: center, $ai: center);
+    flex-direction: column;
+    text-align: center;
+    background-color: $white;
+    border-radius: 30px;
+    padding: 50px;
+}
+
+.title {
+    @include dFlex($jc: center, $ai: center);
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 40px;
+    h1 {
+        font-size: 2.875rem;
+        font-weight: 700;
+        color: $purple1;
+        margin-bottom: 30px;
+    }
+    h3 {
+        font-size: 1.25rem;
+        color: $black;
+    }
+}
+
+form {
+    width: 100%;
+    a:hover {
+        scale: 1.05;
+        border: none;
+        background-color: $bg-color;
+    }
+}
+
+.form-group {
+    width: 100%;
+    height: 60px;
+    @include dFlex($ai: center);
+    flex-direction: column;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.input-container {
+    @include dFlex($ai: center);
+    width: 100%;
+    height: 100%;
+
+    input {
+        width: 100%;
+        height: 100%;
+        border: solid 1px transparent;
+        border-radius: 100px;
+        background-color: $bg-color;
+        padding: 15px 25px 15px 50px;
+        font-size: 1.125rem;
+        caret-color: auto;
+        cursor: pointer;
+        &:hover {
+            border-color: $text-gray;
+            outline: none;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: $purple1;
+            cursor: text;
+        }
+    }
+
+    input.ng-valid {
+        border-color: $green;
+        &:hover {
+            border-color: $green;
+        }
+        &:focus {
+            border-color: $green;
+        }
+    }
+
+    input.ng-invalid {
+        &:focus {
+            border-color: $error;
+        }
+        &:invalid {
+            border-color: $error;
+        }
+    }
+
+    input.first-focus {
+        &:focus {
+            border-color: $purple1;
+        }
+    }
+
+    img {
+        position: absolute;
+        left: 16px;
+        width: 24px;
+        height: 24px;
+        color: $black;
+    }
+}
+
+.error {
+    @include dFlex($ai: center);
+    width: 100%;
+    color: $error;
+    p {
+        text-align: left;
+        font-size: 0.875rem;
+    }
+}
+
+span {
+    @include dFlex($jc: center);
+    width: 100%;
+    font-size: 1.125rem;
+    margin: 34px 0 43px 0;
+    hr {
+        width: 100%;
+    }
+    p {
+        margin: 0 15px;
+    }
+}
+
+.login-btns {
+    width: 100%;
+    @include dFlex($jc: center);
+    gap: 30px;
+    margin: 40px 0;
+    :nth-child(1) {
+        background-color: $purple1;
+        color: $white;
+        &:hover {
+            background-color: $purple2;
+        }
+    }
+    :nth-child(2) {
+        background-color: $white;
+        color: $purple1;
+        border: 1px solid $purple1;
+        &:hover {
+            background-color: $purple1;
+            color: $white;
+        }
+    }
+}
+
+.google-login {
+    @include dFlex($jc: center, $ai: center);
+    width: 100%;
+    font-weight: 400;
+    background-color: $bg-color;
+    border: 1px solid transparent;
+    color: $purple1;
+    img {
+        width: 38px;
+        height: 38px;
+        margin-right: 16px;
+    }
+    &:hover {
+        scale: 1.005;
+        font-weight: 700;
+        border: 1px solid $purple1;
+    }
+}
+
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.125rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.175s ease-out;
+    text-wrap: nowrap;
+}
+
+footer {
+    @include dFlex($jc: center, $ai: center);
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 48px;
+    width: 100%;
+    gap: 18px;
+}
+
+a {
+    text-decoration: none;
+    font-family: "Figtree" !important;
+    font-size: 1.125rem;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 40px;
+    color: $purple2;
+    cursor: pointer;
+    &:hover {
+        border: 1px solid $text-gray;
+        color: $purple1;
+        font-weight: 500;
+    }
+}
+
+.intro-bg-animation {
+    position: relative;
+    @include dFlex($jc: center, $ai: center);
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient($purple2, $purple1);
+    animation: fadeOut 2s ease-in-out forwards 2s;
+    z-index: 1;
+}
+
+.intro-logo-animation {
+    position: absolute;
+    @include dFlex($jc: space-between, $ai: center);
+    gap: 16px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.intro-logo-text {
+    transform: translateX(-400px);
+    span {
+        transform: rotate(-180deg);
+        margin: 0;
+        font-weight: 700;
+        color: $white;
+        font-size: 1rem;
+    }
+}
+
+.intro-logo {
+    width: 187px;
+    height: 184px;
+    background-image: url("/assets/img/Logo.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    z-index: 1;
+}
+
+.back-arrow {
+    position: absolute;
+    top: 60px;
+    left: 45px;
+    background-image: url("/assets/img/login/arrow_back.png");
+    background-size: contain;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.6);
+        background-image: url("/assets/img/login/arrow_back_hover.png");
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    99% {
+        z-index: 1;
+    }
+    100% {
+        opacity: 0;
+        z-index: -1;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    header {
+        @include dFlex($jc: center, $ai: center);
+        margin-top: 24px;
+        div:nth-child(2) {
+            display: none;
+        }
+    }
+
+    main {
+        top: 116px;
+        padding: 24px !important;
+        transform: translate(-50%, 0%);
+        .back-arrow {
+            top: 30px;
+            left: 24px;
+        }
+    }
+
+    .title {
+        margin-bottom: 24px;
+        h1 {
+            padding: 0 40px;
+            margin-bottom: 8px;
+            font-size: 2rem;
+        }
+        h3 {
+            font-size: 1.125rem;
+        }
+    }
+
+    form {
+        a {
+            padding: 0;
+        }
+        span {
+            margin: 24px 0 24px 0;
+        }
+    }
+
+    .login-btns {
+        margin: 24px 0 24px;
+    }
+
+    .input-container {
+        input {
+            padding: 12px 12px 12px 48px;
+        }
+    }
+
+    .form-group {
+        height: 50px;
+        margin-bottom: 24px;
+    }
+
+    .google-login {
+        height: 50px;
+    }
+
+    .register-container {
+        display: block !important;
+        margin-bottom: -124px;
+        height: 100px;
+        width: 200px;
+        span {
+            margin: 20px 0;
+        }
+        a {
+            border: 1px solid $purple2;
+            border-radius: 50px;
+            font-weight: 700;
+        }
+    }
+
+    footer {
+        bottom: 16px;
+    }
+}
+
+@media screen and (max-height: 767px) {
+    footer {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    header {
+        margin: 6px 0 0;
+        img {
+            width: 50px !important;
+            height: 50px !important;
+        }
+    }
+
+    main {
+        top: 88px;
+    }
+
+    .title {
+        margin-bottom: 24px;
+        h1 {
+            margin-bottom: 8px;
+            font-size: 1.75rem;
+        }
+        h3 {
+            font-size: 1rem;
+        }
+    }
+
+    form {
+        a {
+            font-size: 1rem;
+        }
+        span {
+            font-size: 1rem;
+            margin: 12px 0;
+        }
+    }
+
+    .input-container {
+        input {
+            padding: 12px 12px 12px 48px;
+            font-size: 1rem;
+        }
+        img {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .register-container {
+        span {
+            font-size: 1rem;
+            margin: 16px 0;
+        }
+        a {
+            font-size: 1rem;
+        }
+    }
+
+    .login-btns {
+        margin: 16px 0;
+        gap: 16px;
+    }
+
+    .google-login {
+        height: 40px;
+        img {
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    button {
+        font-size: 1rem;
+        padding: 8px 16px;
+    }
+
+    .success-popup {
+        padding: 24px;
+        span {
+            font-size: 1.5rem;
+        }
+        img {
+            margin-right: 16px;
+        }
+    }
+}
+
+@media screen and (orientation: landscape) and (max-width: 1181px) {
+    main {
+        justify-content: normal;
+        height: 72vh;
+        transform: translate(-50%, -45%);
+        padding: 24px 32px !important;
+        overflow-y: auto;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .title {
+        margin-bottom: 18px;
+        font-size: 2rem;
+        h1 {
+            margin-bottom: 0px;
+        }
+        h3 {
+            font-size: 1.125rem;
+        }
+    }
+
+    .back-arrow {
+        top: 40px;
+        left: 32px;
+    }
+
+    span {
+        margin: 18px 0;
+    }
+
+    .login-btns {
+        margin: 18px 0 0;
+    }
+
+    footer {
+        bottom: 16px;
+    }
+}

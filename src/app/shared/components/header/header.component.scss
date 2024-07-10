@@ -1,0 +1,243 @@
+@import "./../../../../styles.scss";
+
+header {
+    @include dFlex($jc: space-between, $ai: center);
+
+    .header-search {
+        @include dFlex($jc: space-between);
+        padding: 17.5px 45px;
+        width: 100%;
+        max-width: 989px;
+        height: 70px;
+        background-color: #ffffff;
+        border-radius: 42px;
+        margin: 0 20px;
+
+        input {
+            width: 100%;
+            height: 33px;
+            padding-bottom: 6px;
+            outline: none;
+            border: none;
+            font: 400 24px "Nunito";
+            color: #686868;
+            caret-color: black;
+        }
+
+        img {
+            border-radius: 50% 50%;
+            object-fit: cover;
+            padding: 4px;
+        }
+    }
+
+    .header-logo {
+        padding-left: 20px;
+        height: 100%;
+    }
+
+    .user-menu {
+        @include dFlex($jc: space-between);
+        cursor: pointer;
+
+        &:hover {
+            color: $purple3;
+
+            .menu-btn {
+                background-image: url("/assets/img/header/menu-arrow-hovered.svg");
+            }
+        }
+
+        span {
+            font: 700 32px "Nunito";
+            text-wrap: nowrap;
+            text-align: end;
+            padding: 0 16px;
+        }
+
+        .profile-picture {
+            position: relative;
+            @include dFlex();
+
+            img {
+                border-radius: 50% 50%;
+                object-fit: cover;
+                width: 70px;
+                height: 70px;
+            }
+
+            .status {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                height: 16.67px;
+                width: 16.67px;
+                border: 2px solid #ffffff;
+                border-radius: 50% 50%;
+            }
+        }
+
+        .menu-btn {
+            background-image: url("/assets/img/header/menu-arrow.svg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 30px;
+            width: 30px;
+            margin-left: 8px;
+        }
+    }
+}
+
+.headline-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    span {
+        font-size: 24px;
+        font-weight: 700;
+    }
+}
+
+.arrow-back {
+    @include dFlex($jc: center);
+    height: 50px;
+    img {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+.header-logo-mobile {
+    margin: 0 10px 0 4px;
+    height: 50px;
+    width: 50px;
+
+    img {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.d-none {
+    display: none !important;
+}
+
+.search-wrapper {
+    width: 100%;
+    max-width: 989px;
+    margin: 0 20px;
+}
+
+.button-wrapper {
+    @include dFlex($ai: flex-start);
+    flex-direction: column;
+    gap: 10px;
+
+    .span-head {
+        font: 500 18px "Nunito";
+    }
+}
+
+.user-wrapper {
+    @include dFlex();
+    gap: 8px;
+    border-radius: 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+
+    div {
+        @include dFlex($ai: flex-start);
+        flex-direction: column;
+    }
+
+    &:hover {
+        background-color: $bg-color;
+    }
+
+    img {
+        height: 34px;
+        width: 34px;
+        border-radius: 50%;
+    }
+
+    span {
+        text-wrap: nowrap;
+    }
+}
+
+.bold-span {
+    font-weight: 700;
+}
+
+@media screen and (max-width: 1260px) {
+    .header-search {
+        padding: 17.5px 10px 17.5px 28px !important;
+        margin: 0 10px !important;
+    }
+
+    .user-menu {
+        span {
+            font-size: 30px !important;
+        }
+    }
+
+    ::placeholder {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .user-menu {
+        span {
+            font-size: 28px !important;
+        }
+    }
+
+    ::placeholder {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .header-search {
+        display: none !important;
+    }
+    .header-logo {
+        padding-left: 0 !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    header {
+        height: 50px;
+
+        .profile-picture {
+            img {
+                width: 50px !important;
+                height: 50px !important;
+            }
+        }
+        .user-menu {
+            span {
+                text-wrap: wrap;
+                font-size: 24px !important;
+            }
+        }
+
+        img {
+            height: 50px;
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .user-menu {
+        span,
+        .menu-btn {
+            display: none;
+        }
+    }
+}

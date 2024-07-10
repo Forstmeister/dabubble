@@ -1,0 +1,89 @@
+@import "../../../styles.scss";
+@import "../login.component.scss";
+
+main {
+    padding: 40px 50px;
+}
+
+.login-btns {
+    @include dFlex($jc: end);
+    margin-top: 24px;
+}
+
+.form-group:nth-child(4) {
+    margin-bottom: 0;
+}
+
+.checkbox {
+    @include dFlex($jc: flex-start, $ai: center);
+    flex-direction: row;
+    width: 100%;
+    gap: 8px;
+
+    input {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 24px;
+        height: 24px;
+        margin-top: 2px;
+        border: none;
+        border-radius: 0;
+        background-image: url(/assets/img/login/checkbox.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        cursor: pointer;
+
+        &:hover {
+            background-image: url(/assets/img/login/checkbox_hover.png);
+        }
+
+        &:checked {
+            background-image: url(/assets/img/login/checkbox_checked.png);
+        }
+
+        &:checked:hover {
+            background-image: url(/assets/img/login/checkbox_checked_hover.png);
+        }
+    }
+
+    span {
+        margin: 0;
+        @include dFlex($jc: flex-start, $ai: center);
+        font-family: "Open Sans" !important;
+        color: #42526e;
+        a {
+            margin-top: 2px;
+            padding: 4px;
+            &:hover {
+                font-weight: 400;
+                scale: 1;
+                border: 1px solid transparent;
+            }
+        }
+    }
+}
+
+@media screen and (orientation: landscape) and (max-width: 1181px) {
+    .login-btns {
+        margin: 0;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .checkbox {
+        align-items: flex-start;
+        span {
+            margin-top: 2px;
+            flex-direction: column;
+            align-items: flex-start;
+            a {
+                padding: 0 4px 0 0;
+            }
+        }
+    }
+
+    .login-btns {
+        margin: 19px 0 0;
+    }
+}

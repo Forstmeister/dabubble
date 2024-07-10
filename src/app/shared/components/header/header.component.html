@@ -1,0 +1,46 @@
+<header>
+    <div #headlineMobile class="headline-mobile" (click)="goBack()">
+        <div class="arrow-back">
+            <img src="/assets/img/header/arrow_back.png" alt="arrow">
+        </div>
+        <div class="header-logo-mobile">
+            <img src="/assets/img/Workspace logo.svg" alt="logo">
+        </div>
+        <span> Devspace </span>
+    </div>
+    <div #headlineDesktop class="header-logo">
+        <img src="/assets/img/header/Logo.svg" alt="logo">
+    </div>
+    <div class="search-wrapper">
+        <div class="header-search">
+            <input [matMenuTriggerFor]="menu" #trigger autocomplete="off" type="text" name="searchMsg"
+                [(ngModel)]="searchMsg.msg" (click)="$event.stopPropagation()" (input)="searchMessage()"
+                (input)="getMenu()" placeholder="Channel durchsuchen">
+            <img src="/assets/img/header/search-btn.svg">
+        </div>
+        <mat-menu #menu="matMenu" hasBackdrop="true">
+            @if (messageList.length!= 0) {
+            <div class="button-wrapper">
+                <span class="span-head">Nachrichten:</span>
+                @for (message of messageList; track message.name; let i = $index) {
+                <div class="user-wrapper" (click)="scrollToMessage(message.index)">
+                    <img [src]="message.profilePicture" alt="">
+                    <div>
+                        <span class="bold-span">{{message.name}}</span>
+                        <span><span class="bold-span">Nachricht: </span>{{(message.message).substring(0,15)}}...</span>
+                    </div>
+                </div>
+                }
+            </div>
+            }
+        </mat-menu>
+    </div>
+    <div class="user-menu" (click)="openDialog()">
+        <span>{{userService.userInfo.name}}</span>
+        <div class="profile-picture">
+            <img [src]="userService.userInfo.profilePicture" referrerpolicy="no-referrer" alt="">
+            <div [ngClass]="getUserStatus()" class="status"></div>
+        </div>
+        <div class="menu-btn"></div>
+    </div>
+</header>

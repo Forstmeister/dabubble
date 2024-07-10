@@ -1,0 +1,235 @@
+@import "./../../../../styles.scss";
+
+.main-container {
+    padding: 40px;
+    @include dFlex($ai: flex-start);
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+}
+
+.channel-close-icon-mobile {
+    @include dFlex($jc: center, $ai: center);
+    width: 100%;
+    height: fit-content;
+    display: none;
+    button {
+        border: none;
+        width: 62px;
+        height: 6px;
+        border-radius: 23px;
+        background-color: $bg-color;
+        cursor: pointer;
+        &:focus,
+        &:active {
+            outline: none;
+        }
+    }
+}
+
+.channel-close-icon {
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    cursor: pointer;
+    @include dFlex($jc: center);
+    height: 40px;
+    width: 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url("/assets/img/icons/close.svg");
+
+    &:hover {
+        background-image: url("/assets/img/icons/close_hover.svg");
+        background-color: $bg-color;
+        border-radius: 50%;
+    }
+}
+
+.headline {
+    > span {
+        font-size: 24px;
+        font-weight: 700;
+    }
+}
+
+.channel-name {
+    @include dFlex();
+    color: $purple2;
+    font-size: 18px;
+}
+
+.hash-icon {
+    @include dFlex($jc: center);
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url("/assets/img/icons/tag_hover.svg");
+}
+
+form {
+    @include dFlex($ai: flex-start);
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+
+    > input {
+        cursor: pointer;
+        width: 100%;
+        height: 60px;
+        border-radius: 40px;
+        padding: 18px 20px;
+        border: 1px solid $light-purple;
+        font-size: 18px;
+        caret-color: black;
+        text-indent: 15px;
+        transition: all 125ms ease-out;
+
+        &:hover {
+            border: 1px solid $purple2;
+        }
+
+        &:focus-visible {
+            outline: 1px solid $purple3;
+        }
+
+        &::placeholder {
+            font-size: 18px;
+            padding-left: 5px;
+        }
+    }
+}
+
+.button-container {
+    @include dFlex($jc: flex-end);
+    width: 100%;
+
+    > button {
+        font-size: 18px;
+        cursor: pointer;
+        background-color: $purple1;
+        color: white;
+        border-radius: 25px;
+        padding: 12px 25px;
+        border: none;
+
+        &:hover {
+            background-color: $purple2;
+        }
+    }
+}
+
+.focus-visible-invalid {
+    > input {
+        &:focus-visible {
+            outline: 1px solid $error;
+        }
+
+        &:hover {
+            outline: 1px solid $error;
+            border: 1px solid $error;
+        }
+
+        border: 1px solid $error;
+    }
+}
+
+.error-message {
+    position: absolute;
+    bottom: 5px;
+    left: 35px;
+    color: $error;
+}
+
+.channel-close-icon {
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    cursor: pointer;
+    @include dFlex($jc: center);
+    height: 40px;
+    width: 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url("/assets/img/icons/close.svg");
+
+    &:hover {
+        background-image: url("/assets/img/icons/close_hover.svg");
+        background-color: $bg-color;
+        border-radius: 50%;
+    }
+}
+
+.user-wrapper-chosen {
+    @include dFlex($ai: center);
+    gap: 15px;
+    height: 40px;
+    padding: 5px 10px;
+    border-radius: 40px;
+    background-color: $bg-color;
+    cursor: default;
+
+    img {
+        height: 34px;
+        width: 34px;
+        border-radius: 50% 50%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    span {
+        text-wrap: nowrap;
+    }
+
+    .deleteUser {
+        height: 30px;
+        width: 30px;
+        background-image: url(/assets/img/mainsection/close.svg);
+        background-position: center;
+        background-repeat: no-repeat;
+        cursor: pointer;
+
+        &:hover {
+            background-image: url(/assets/img/mainsection/close-hover.svg);
+        }
+    }
+}
+
+.user-wrapper {
+    @include dFlex($ai: center);
+    cursor: pointer;
+    gap: 15px;
+    padding: 5px 20px;
+    border-radius: 40px;
+    font-size: 18px;
+    width: fit-content;
+
+    img {
+        height: 50px;
+        width: 50px;
+        border-radius: 50% 50%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    &:hover {
+        background-color: $bg-color;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .main-container {
+        padding: 30px 24px 42px 24px;
+    }
+
+    .channel-close-icon {
+        top: 54px;
+        right: 24px;
+    }
+
+    .channel-close-icon-mobile {
+        display: flex;
+    }
+}

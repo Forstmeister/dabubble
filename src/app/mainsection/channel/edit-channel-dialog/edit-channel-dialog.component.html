@@ -1,0 +1,60 @@
+<div class="main-container">
+    <div class="channel-close-icon" mat-dialog-close [mat-dialog-close]="true"></div>
+    <div class="headline">
+        <span># {{channelService.channelMsgData.title}}</span>
+    </div>
+    <form #channelName="ngForm" class="channel-container"
+        [ngClass]="{'channel-name-container-border': !editChannelName}">
+        <div class="edit-head">
+            <span class="channel-name">Channel-Name</span>
+            <span *ngIf="!editChannelName" (click)=" changeEditChannelStatus()"
+                class="channel-name-edit">Bearbeiten</span>
+            <span *ngIf="editChannelName" (click)="saveEditChannelStatus(channelName)"
+                class="channel-name-edit">Speichern</span>
+        </div>
+        <div class="head-editable">
+            <div class="editable-name-container">
+                <div class="hash-icon" [ngClass]="{'absolute': editChannelName}"></div>
+                <span *ngIf="!editChannelName" class="channel-name-unedited">{{channelService.channelMsgData.title}}</span>
+                <div *ngIf="editChannelName" class="new-channel-name">
+                    <input [(ngModel)]="newChannelValues.name" maxlength="16" name="channelName" type="text" placeholder="Dein Text Hier">
+                </div>
+            </div>
+            <div class="invalid-input" *ngIf="channelNameExists === true">
+                <p>Dieser Channelname ist zu kurz oder existiert schon, bitte wähle einen anderen !</p>
+            </div>
+        </div>
+    </form>
+    <form #channelDescription="ngForm" class="channel-container"
+        [ngClass]="{'description-container-border': !editDescription}">
+        <div class="edit-head">
+            <span class="channel-name">Beschreibung</span>
+            <span *ngIf="!editDescription" (click)="changeEditDescriptionStatus()"
+                class="channel-name-edit">Bearbeiten</span>
+            <span *ngIf="editDescription" (click)="saveEditDescriptionStatus(channelDescription)"
+                class="channel-name-edit">Speichern</span>
+        </div>
+        <div class="description-container">
+            <span *ngIf="!editDescription" class="description-name-unedited">{{channelService.channelMsgData.description}}</span>
+            <div *ngIf="editDescription" class="new-channel-name">
+                <input [(ngModel)]="newChannelValues.newDescription" name="channelDescription"
+                    placeholder="Dein Text Hier" type="text">
+            </div>
+            <div class="description-divider"></div>
+            <div class="created-from-container">
+                <span> Erstellt von</span>
+                <div class="created-from">
+                    <span> {{channelService.channelMsgData.creator}}</span>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="addUserToChannel-container">
+    <app-add-user-to-channel-dialog></app-add-user-to-channel-dialog>
+    </div>
+    <div class="button-container">
+        <button (click)="leaveChannel()" [mat-dialog-close]="true">
+            Channel verlassen
+        </button>
+    </div>
+</div>

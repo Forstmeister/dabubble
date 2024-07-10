@@ -1,0 +1,77 @@
+<section>
+    <div class="intro-bg-animation" *ngIf="showIntroAnimation"></div>
+    <div class="intro-logo-animation"
+        [@slideLogoContainer]="{ value: logoContainerState, params: { left: leftPosition, transform: transform } }"
+        *ngIf="showIntroAnimation">
+        <div class="intro-logo" [@slideLogo]="{ value: logoState, params: { width: logoWidth, height: logoHeight } }">
+        </div>
+        <div class="intro-logo-text" [@slideLogoTextContainer]="logoTextContainerState">
+            <span [@slideLogoText]="{ value: logoTextState, params: { fontSize: logoTextSize}}">DaBubble</span>
+        </div>
+    </div>
+    <header>
+        <div>
+            <img src="../../assets/img/Logo.png" alt="Logo">
+            <h1>DaBubble</h1>
+        </div>
+        <div>
+            <span>Neu bei DABubble?</span>
+            <a routerLink="/register">Konto erstellen</a>
+        </div>
+    </header>
+    <main>
+        <div class="title">
+            <h1>Anmelden</h1>
+            <h3>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</h3>
+        </div>
+        <form [formGroup]="loginForm" autocomplete="on">
+            <div class="form-group">
+                <div class="input-container">
+                    <img src="../../assets/img/login/email.png">
+                    <input #emailInput type="email" formControlName="email" placeholder="E-Mail Adresse"
+                        autocomplete="email"
+                        pattern="^(http(s){0,1}:\/\/.){0,1}[\-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([\-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)$"
+                        [ngClass]="{'first-focus': firstFocus}" (input)="onInput()">
+                </div>
+                <div class="error">
+                    <p *ngIf="loginForm.controls['email'].invalid && loginForm.controls['email'].dirty">Bitte eine gültige E-Mail-Adresse eingeben</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-container">
+                    <img src="../../assets/img/login/{{ showPassword ? 'unlock.png' : 'lock.png'}}"
+                        (click)="togglePasswordVisibility()">
+                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Passwort"
+                        autocomplete="current-password" [ngClass]="{'first-focus': firstFocus}" (input)="onInput()">
+                </div>
+                <div class="error">
+                    <p *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].dirty">mindestens 8 Zeichen</p>
+                    <p *ngIf="errorMessage">{{ errorMessage }}</p>
+                </div>
+            </div>
+            <div>
+                <a routerLink="/resetpassword">Passwort vergessen?</a>
+            </div>
+            <span>
+                <hr>
+                <p>ODER</p>
+                <hr>
+            </span>
+            <button type="button" class="google-login" (click)="loginWithGoogle()"><img
+                    src="../../assets/img/login/google_logo.png">Anmelden mit
+                Google</button>
+            <div class="login-btns">
+                <button type="submit" (click)="login()" [disabled]="loginForm.invalid">Anmelden</button>
+                <button type="button" (click)="loginGuest()">Gäste-Login</button>
+            </div>
+        </form>
+        <div class="register-container d-none">
+            <span>Neu bei DABubble?</span>
+            <a routerLink="/register">Konto erstellen</a>
+        </div>
+    </main>
+    <footer class="footer">
+        <a routerLink="/imprint">Impressum</a>
+        <a routerLink="/privacypolicy">Datenschutz</a>
+    </footer>
+</section>

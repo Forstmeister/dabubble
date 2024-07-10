@@ -1,0 +1,91 @@
+<div class="profile-container">
+    <div class="profile-head">
+        <span>Profil</span>
+        <div (click)="closeDialog()">
+            <img src="/assets/img/header/close.svg" alt="">
+        </div>
+    </div>
+    <div class="profile-picture-container">
+        <div class="profile-picture">
+            <img *ngIf="otherUser==true" referrerpolicy="no-referrer"
+                [src]="userService.otherUserInfo.profilePicture">
+            <img *ngIf="otherUser==false" referrerpolicy="no-referrer"
+                [src]="selectedAvatar || userService.userInfo.profilePicture">
+            <div class="edit-pencil-icon" *ngIf="editMode" [ngClass]="{ 'active-edit-profile-pic': editProfilePic }"
+                (click)="toggleChangeProfilePic()"></div>
+        </div>
+    </div>
+    @if (editMode == false) {
+    <div class="profile-edit-container">
+        <div class="profile-edit">
+            <span *ngIf="otherUser==true">{{userService.otherUserInfo.name}}</span>
+            <span *ngIf="otherUser==false">{{userService.userInfo.name}}</span>
+            @if (profileEditable) {<a (click)="editMode=true">Bearbeiten</a>}
+        </div>
+        <div class="user-status">
+            <div [ngClass]="getUserStatus('div')" class="status"></div>
+            <span [ngClass]="getUserStatus('text')">{{getStatusText()}}</span>
+        </div>
+    </div>
+    <div class="profile-email-container">
+        <div class="email-icon">
+            <img src="/assets/img/profile/mail.svg" alt="mail-icon">
+        </div>
+        <div class="email-content">
+            <span>E-mail Adresse</span>
+            <a *ngIf="otherUser==true"
+                [href]="'mailto:' + userService.otherUserInfo.email">{{userService.otherUserInfo.email}}</a>
+            <a *ngIf="otherUser==false"
+                [href]="'mailto:'+ userService.userInfo.email">{{userService.userInfo.email}}</a>
+        </div>
+    </div>
+    @if (otherUser=== true) {
+    <div class="profile-msg-btn">
+        <div class="msg-btn" (click)="sendMessage()">
+            <img src="/assets/img/profile/message.svg" alt="message-icon">
+            <span>Nachricht</span>
+        </div>
+    </div>}
+    }
+    @if (editMode == true) {
+    <div class="edit-user-form-container">
+        <form (ngSubmit)="userService.updateUserProfile(updateUserForm)" [formGroup]="updateUserForm"
+            autocomplete="off">
+            <div class="selectable-profile-pic" *ngIf="editProfilePic">
+                <img *ngFor="let avatar of avatars" [src]="avatar" (click)="selectAvatar(avatar)"
+                    [ngClass]="{'selected': avatar === selectedAvatar}">
+            </div>
+            <div class="upload" *ngIf="editProfilePic">
+                <button (click)="triggerFileInput()">Datei hochladen</button>
+                <input #fileInput type="file" accept="image/*" (change)="onImageSelected(fileInput)" hidden>
+              </div>
+            <div class="input-container" *ngIf="!editProfilePic">
+                <div>
+                    <img src="/assets/img/profile/account-circle.svg" alt="profil-icon">
+                    <span>Vollständiger Name</span>
+                </div>
+                <input [placeholder]="userService.userInfo.name" type="text" formControlName="name">
+            </div>
+            <div class="input-container" *ngIf="!editProfilePic">
+                <div>
+                    <img src="/assets/img/profile/mail.svg" alt="">
+                    <span>E-mail Adresse</span>
+                </div>
+                <input [placeholder]="userService.userInfo.email" type="email" formControlName="email"
+                    pattern="^(http(s){0,1}:\/\/.){0,1}[\-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([\-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)$">
+            </div>
+        </form>
+        <div class="edit-user-btns">
+            <div class="cancel-btn" (click)="editMode=false; selectedAvatar=''">
+                Abbrechen
+            </div>
+            <div *ngIf="!editProfilePic" class="save-btn" (click)="checkUpdateInput()">
+                Speichern
+            </div>
+            <div *ngIf="editProfilePic" class="save-btn" (click)="newProfilePicture(); editProfilePic = false">
+                Speichern
+            </div>
+        </div>
+    </div>
+    }
+</div>

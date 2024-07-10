@@ -1,0 +1,74 @@
+<div class="sidebar-container">
+  <div class="search-bar">
+    <input type="text" placeholder="[channelName] durchsuchen">
+    <img src="/assets/img/header/search-btn.svg">
+  </div>
+  <div class="headline-container">
+    <div class="headline-left">
+      <div class="header-logo">
+        <img src="assets/img/Workspace logo.svg" alt="logo" />
+      </div>
+      <span> Devspace </span>
+    </div>
+    <div class="edit-icon" (click)="newMessage()" *ngIf="!resizeListenerService.smScreen"></div>
+  </div>
+  <div class="channel-container">
+    <div class="channels">
+      <div class="channel-left-side">
+        <div (click)="toggleMenu('channel')" [ngClass]="{ 'rotate-180': menuStates['channel'] === 'closed' }"
+          class="arrow-down-icon">
+        </div>
+        <div class="channel-head">
+          <div (click)="toggleMenu('channel')" class="channel-icon">
+          </div>
+          <span (click)="toggleMenu('channel')">Channels</span>
+        </div>
+      </div>
+      <div (click)="openDialog()" class="channel-head-plus-icon">
+      </div>
+    </div>
+    <div class="channel-wrapper">
+      @for (channel of sidebarService.channels; track $index) {
+      <div [@openClose]="menuStates['channel']"
+        (click)="channelService.chooseChannelType(false, channel); goToChannel()"
+        [ngClass]="{'channel-active': activeChannelTitle === channel.title}" class="single-channel-container">
+        <span class="channel-hash"></span>
+        <span class="channel-name">{{channel.title}}</span>
+      </div>
+      }
+      <div (click)="openDialog()" class="add-new-channel-container">
+        <div class="add-new-channel-icon"></div>
+        <span>Channel hinzufügen</span>
+      </div>
+    </div>
+  </div>
+  <div class="direct-message-container">
+    <div (click)="toggleMenu('message')" [ngClass]="{ 'rotate-180': menuStates['message'] === 'closed' }"
+      class="arrow-down-icon">
+    </div>
+    <div class="direct-message-head">
+      <div (click)="toggleMenu('message')" class="message-icon">
+      </div>
+      <span (click)="toggleMenu('message')">Direktnachrichten</span>
+    </div>
+  </div>
+  <div [@openClose]="menuStates['message']" class="messages-container">
+    <div class="message" (click)="channelService.chooseChannelType(true, userService.userInfo); goToPrivateMessage()"
+      [ngClass]="{'private-message-active' : activePrivateChannel === userService.userInfo.name}">
+      <img [src]="userService.userInfo.profilePicture" alt="" />
+      <div [ngClass]="getUserStatus()" class="online-indicator"></div>
+      <span>{{userService.userInfo.name}} (Du)</span>
+    </div>
+    @for (dm of sidebarService.userDmData; track dm; let i = $index) {
+    @if (dm.id != userService.userInfo.id) {
+    <div class="message" (click)="channelService.chooseChannelType(true, dm); goToDirektMessage(dm.name)"
+      [ngClass]="{'private-message-active' : activeDirectChannel === dm.name}">
+      <img referrerpolicy="no-referrer" [src]="dm.profilePicture" alt="" />
+      <div [ngClass]="getDmStatus(i)" class="online-indicator"></div>
+      <span>{{dm.name}}</span>
+    </div>
+    }
+    }
+  </div>
+</div>
+<div class="edit-icon-mobile" (click)="newMessage()" *ngIf="resizeListenerService.smScreen"></div>
